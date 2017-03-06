@@ -1,21 +1,21 @@
 /*
  * The MIT License
- * 
+ *
  * Copyright (c) 2004-2012, Sun Microsystems, Inc., Kohsuke Kawaguchi, Fulvio Cavarretta,
  * Jean-Baptiste Quenot, Luca Domenico Milanesio, Renaud Bruyeron, Stephen Connolly,
  * Tom Huybrechts, Yahoo! Inc., Manufacture Francaise des Pneumatiques Michelin,
  * Romain Seguy, OHTAKE Tomohiro
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -844,7 +844,7 @@ public class SubversionSCM extends SCM implements Serializable {
         return revisions;
     }
 
-    
+
 
     /**
      * Polling can happen on the master and does not require a workspace.
@@ -871,17 +871,19 @@ public class SubversionSCM extends SCM implements Serializable {
         }
 
         // write out the revision file
-        PrintWriter w = new PrintWriter(new FileOutputStream(getRevisionFile(build)));
+        PrintWriter w = new PrintWriter(new FileOutputStream(getRevisionFile(build), true));
         try {
             List<SvnInfoP> pList = workspace.act(new BuildRevisionMapTask(build, this, listener, externalsForAll, env));
             List<SvnInfo> revList= new ArrayList<SvnInfo>(pList.size());
             for (SvnInfoP p: pList) {
                 if (p.pinned)
                     w.println( p.info.url +'/'+ p.info.revision + "::p");
-                else
+                } else {
                     w.println( p.info.url +'/'+ p.info.revision);
+                }
                 revList.add(p.info);
             }
+
             build.addAction(new SubversionTagAction(build,revList));
         } finally {
             w.close();
@@ -2412,7 +2414,7 @@ public class SubversionSCM extends SCM implements Serializable {
         protected SVNRepository getRepository(Item context, SVNURL repoURL, StandardCredentials credentials,
                                               Map<String, Credentials> additionalCredentials, ISVNSession session) throws SVNException {
             SVNRepository repository = SVNRepositoryFactory.create(repoURL, session);
-        
+
             ISVNAuthenticationManager sam = createSvnAuthenticationManager(
                     new CredentialsSVNAuthenticationProviderImpl(credentials, additionalCredentials, /* TODO */ TaskListener.NULL)
             );
@@ -2621,7 +2623,7 @@ public class SubversionSCM extends SCM implements Serializable {
             }
         return false;
     }
-    
+
     /**
      * Disables the project if it is possible and prints messages to the log.
      * @param project Project to be disabled

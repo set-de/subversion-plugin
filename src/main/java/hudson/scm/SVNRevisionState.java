@@ -1,7 +1,9 @@
 package hudson.scm;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * {@link SCMRevisionState} for {@link SubversionSCM}. {@link Serializable} since we compute
@@ -16,6 +18,10 @@ public final class SVNRevisionState extends SCMRevisionState implements Serializ
      */
     final Map<String,Long> revisions;
 
+    SVNRevisionState() {
+        this.revisions = new LinkedHashMap<String, Long>();
+    }
+
     SVNRevisionState(Map<String, Long> revisions) {
         this.revisions = revisions;
     }
@@ -29,4 +35,15 @@ public final class SVNRevisionState extends SCMRevisionState implements Serializ
     }
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Adds revisions from given map that are not already contained.
+     */
+    public void addRevisions(Map<String, Long> revisions) {
+        for (Entry<String, Long> revision : revisions.entrySet()) {
+            if (!this.revisions.containsKey(revision.getKey())) {
+                this.revisions.put(revision.getKey(), revision.getValue());
+            }
+        }
+    }
 }
