@@ -147,12 +147,12 @@ public final class SETSubversionStep extends Step implements Serializable {
         SVNRevisionState pollingBaseline = null;
         if (this.poll || this.changelog) {
             pollingBaseline = (SVNRevisionState) scm.calcRevisionsFromBuild(run, workspace, launcher, listener);
-            state.addRevisions(pollingBaseline.revisions);
+            state.addRevisions(pollingBaseline.revisions, true);
         }
 
         // Add all revisions from previous build
         if (baseline != null) {
-            state.addRevisions(baseline.revisions);
+            state.addRevisions(baseline.revisions, false);
         }
 
         for (final SCMListener l : SCMListener.all()) {
