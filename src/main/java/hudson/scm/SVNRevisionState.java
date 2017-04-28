@@ -22,16 +22,16 @@ public final class SVNRevisionState extends SCMRevisionState implements Serializ
         this.revisions = new LinkedHashMap<String, Long>();
     }
 
-    SVNRevisionState(Map<String, Long> revisions) {
+    SVNRevisionState(final Map<String, Long> revisions) {
         this.revisions = revisions;
     }
 
-    public long getRevision(String location) {
-        return revisions.get(location);
+    public long getRevision(final String location) {
+        return this.revisions.get(location);
     }
 
     @Override public String toString() {
-        return "SVNRevisionState" + revisions;
+        return "SVNRevisionState" + this.revisions;
     }
 
     private static final long serialVersionUID = 1L;
@@ -39,9 +39,9 @@ public final class SVNRevisionState extends SCMRevisionState implements Serializ
     /**
      * Adds revisions from given map that are not already contained.
      */
-    public void addRevisions(Map<String, Long> revisions) {
-        for (Entry<String, Long> revision : revisions.entrySet()) {
-            if (!this.revisions.containsKey(revision.getKey())) {
+    public void addRevisions(final Map<String, Long> revisions, final boolean forceUpdate) {
+        for (final Entry<String, Long> revision : revisions.entrySet()) {
+            if (forceUpdate || !this.revisions.containsKey(revision.getKey())) {
                 this.revisions.put(revision.getKey(), revision.getValue());
             }
         }
