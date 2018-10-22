@@ -33,7 +33,7 @@ THE SOFTWARE.
   </parent>
 
   <artifactId>subversion</artifactId>
-  <version>2.12.2-SNAPSHOT</version>
+  <version>2.12.1-SET</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Subversion Plug-in</name>
@@ -201,6 +201,13 @@ THE SOFTWARE.
       <artifactId>scm-api</artifactId>
       <version>${scm-api-plugin.version}</version>
     </dependency>
+     
+    <dependency>
+      <groupId>org.jenkins-ci.plugins.workflow</groupId>
+      <artifactId>workflow-api</artifactId>
+      <version>2.25</version>
+    </dependency>
+     
     <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>
       <artifactId>workflow-scm-step</artifactId>

@@ -876,7 +876,7 @@ public class SubversionSCM extends SCM implements Serializable {
             List<SvnInfoP> pList = workspace.act(new BuildRevisionMapTask(build, this, listener, externalsForAll, env));
             List<SvnInfo> revList= new ArrayList<SvnInfo>(pList.size());
             for (SvnInfoP p: pList) {
-                if (p.pinned)
+                if (p.pinned) {
                     w.println( p.info.url +'/'+ p.info.revision + "::p");
                 } else {
                     w.println( p.info.url +'/'+ p.info.revision);
