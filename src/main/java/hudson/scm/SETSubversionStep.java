@@ -25,6 +25,7 @@ package hudson.scm;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -103,10 +104,13 @@ public final class SETSubversionStep extends Step implements Serializable {
             throws Exception {
         File changelogFile = null;
         if (this.changelog) {
-            for (int i = 0;; i++) {
-                changelogFile = new File(run.getRootDir(), "changelog" + i + ".xml");
-                if (!changelogFile.exists()) {
-                    break;
+            synchronized (run) {
+                for (int i = 0;; i++) {
+                    changelogFile = new File(run.getRootDir(), "changelog" + i + ".xml");
+                    if (!changelogFile.exists()) {
+                        Files.createFile(changelogFile.toPath());
+                        break;
+                    }
                 }
             }
         }
