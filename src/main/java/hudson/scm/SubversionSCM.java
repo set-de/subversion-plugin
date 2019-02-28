@@ -203,6 +203,9 @@ import org.kohsuke.stapler.interceptor.RequirePOST;
  */
 @SuppressWarnings("rawtypes")
 public class SubversionSCM extends SCM implements Serializable {
+
+private static final boolean WITH_TAGGING_ACTIONS = false;
+
     /**
      * the locations field is used to store all configured SVN locations (with
      * their local and remote part). Direct access to this field should be
@@ -884,7 +887,9 @@ public class SubversionSCM extends SCM implements Serializable {
                 revList.add(p.info);
             }
 
-            build.addAction(new SubversionTagAction(build,revList));
+            if (WITH_TAGGING_ACTIONS) {
+                build.addAction(new SubversionTagAction(build,revList));
+            }
         } finally {
             w.close();
         }
