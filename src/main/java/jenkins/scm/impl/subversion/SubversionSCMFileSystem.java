@@ -2,6 +2,7 @@ package jenkins.scm.impl.subversion;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
@@ -21,17 +22,18 @@ import hudson.model.Item;
 import hudson.scm.CredentialsSVNAuthenticationProviderImpl;
 import hudson.scm.FilterSVNAuthenticationManager;
 import hudson.scm.SCM;
+import hudson.scm.SCMDescriptor;
 import hudson.scm.SVNAuthStoreHandlerImpl;
 import hudson.scm.SVNAuthenticationManager;
 import hudson.scm.SubversionSCM;
 import hudson.scm.SubversionSCM.ModuleLocation;
 import hudson.security.ACL;
-import hudson.util.TimeUnit2;
 import jenkins.scm.api.SCMFile;
 import jenkins.scm.api.SCMFileSystem;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.SCMRevision;
 import jenkins.scm.api.SCMSource;
+import jenkins.scm.api.SCMSourceDescriptor;
 import jenkins.scm.impl.subversion.SubversionSCMSource.SCMRevisionImpl;
 
 public class SubversionSCMFileSystem extends SCMFileSystem {
@@ -79,10 +81,20 @@ public class SubversionSCMFileSystem extends SCMFileSystem {
 			return source instanceof SubversionSCM && ENABLED;
 		}
 
+        @Override
+        protected boolean supportsDescriptor(SCMDescriptor descriptor) {
+            return descriptor instanceof SubversionSCM.DescriptorImpl && ENABLED;
+        }
+
 		@Override
 		public boolean supports(SCMSource source) {
 			return source instanceof SubversionSCMSource && ENABLED;
 		}
+
+        @Override
+        protected boolean supportsDescriptor(SCMSourceDescriptor descriptor) {
+            return descriptor instanceof SubversionSCMSource.DescriptorImpl && ENABLED;
+        }
 
 		@Override
 		public SCMFileSystem build(SCMSource source, SCMHead head, SCMRevision rev)
@@ -133,7 +145,7 @@ public class SubversionSCMFileSystem extends SCMFileSystem {
 				public int getReadTimeout(SVNRepository repository) {
 					int r = super.getReadTimeout(repository);
 					if (r <= 0) {
-						r = (int) TimeUnit2.MINUTES.toMillis(1);
+						r = (int) TimeUnit.MINUTES.toMillis(1);
 					}
 					return r;
 				}
