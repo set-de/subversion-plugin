@@ -33,7 +33,7 @@ THE SOFTWARE.
   </parent>
 
   <artifactId>subversion</artifactId>
-  <version>2.12.4-SNAPSHOT</version>
+  <version>2.12.3.0-SET</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Subversion Plug-in</name>
@@ -139,6 +139,7 @@ THE SOFTWARE.
     <java.level>8</java.level>
     <no-test-jar>false</no-test-jar>
     <workflow-scm-step.version>2.6</workflow-scm-step.version>
+    <workflow-api.version>2.25</workflow-api.version>
     <workflow-aggregator.version>2.5</workflow-aggregator.version>
     <findbugs.failOnError>false</findbugs.failOnError> <!-- TODO still have 27 left -->
     <scm-api-plugin.version>2.6.3</scm-api-plugin.version>
@@ -201,6 +202,16 @@ THE SOFTWARE.
       <version>${scm-api-plugin.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.jenkins-ci.plugins.workflow</groupId>
+      <artifactId>workflow-api</artifactId>
+      <version>2.25</version>
+    </dependency>
+         <dependency>
+      <groupId>org.jenkins-ci.plugins.workflow</groupId>
+      <artifactId>workflow-api</artifactId>
+      <version>${workflow-api.version}</version>
+         </dependency>
+         <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>
       <artifactId>workflow-scm-step</artifactId>
       <version>${workflow-scm-step.version}</version>
